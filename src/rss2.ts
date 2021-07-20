@@ -11,6 +11,7 @@ export default (ins: Feed) => {
   const { options } = ins;
   let isAtom = false;
   let isContent = false;
+  let isMedia = false;
 
   const base: any = {
     _declaration: { _attributes: { version: "1.0", encoding: "utf-8" } },
@@ -51,7 +52,7 @@ export default (ins: Feed) => {
     base.rss.channel.image = {
       title: { _text: options.title },
       url: { _text: options.image },
-      link: { _text: sanitize(options.link) }
+      link: { _text: sanitize(options.link) },
     };
   }
 
@@ -104,8 +105,8 @@ export default (ins: Feed) => {
     base.rss.channel["atom:link"] = {
       _attributes: {
         href: sanitize(options.hub),
-        rel: "hub"
-      }
+        rel: "hub",
+      },
     };
   }
 
@@ -159,6 +160,10 @@ export default (ins: Feed) => {
       entry.author.map((author: Author) => {
         if (author.email && author.name) {
           item.author.push({ _text: author.email + " (" + author.name + ")" });
+        } else if (author.email) {
+          item.author.push({ _text: author.email });
+        } else if (author.name) {
+          item.author.push({ _text: author.name });
         }
       });
     }
@@ -193,12 +198,23 @@ export default (ins: Feed) => {
       item.enclosure = formatEnclosure(entry.video, "video");
     }
 
+    if (entry.media) {
+      isMedia = true;
+      for (const key in entry.media) {
+        item[`media:${key}`] = entry.media[key];
+      }
+    }
+
     base.rss.channel.item.push(item);
   });
 
   if (isContent) {
     base.rss._attributes["xmlns:dc"] = "http://purl.org/dc/elements/1.1/";
     base.rss._attributes["xmlns:content"] = "http://purl.org/rss/1.0/modules/content/";
+  }
+
+  if (isMedia) {
+    base.rss._attributes["xmlns:media"] = "https://search.yahoo.com/mrss/";
   }
 
   if (isAtom) {
