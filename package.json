@@ -2,8 +2,8 @@
   "name": "@heather-lau/feed",
   "version": "4.2.3",
   "description": "Feed is a RSS, Atom and JSON feed generator for Node.js, making content syndication simple and intuitive!",
-  "homepage": "https://github.com/jpmonette/feed",
-  "author": "Jean-Philippe Monette <contact@jpmonette.net>",
+  "homepage": "https://github.com/heather-lau/feed",
+  "author": "Heather",
   "license": "MIT",
   "main": "lib/feed.js",
   "types": "lib/feed.d.ts",
@@ -40,10 +40,10 @@
     "node": ">=0.4.0"
   },
   "bugs": {
-    "url": "https://github.com/jpmonette/feed/issues"
+    "url": "https://github.com/heather-lau/feed/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jpmonette/feed.git"
+    "url": "https://github.com/heather-lau/feed.git"
   }
 }
